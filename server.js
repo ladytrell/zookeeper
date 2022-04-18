@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3001;
 // Instantiate the server
 const app = express();
 
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -113,6 +114,26 @@ app.post('/api/animals', (req, res) => {
     const animal = createNewAnimal(req.body, animals);
     res.json(animal);
   }
+});
+
+// App html home page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// Animalss HTML page
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+// Zoo Keeper HTML page
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// Redirect to index when requesting a file that does not exist
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 // Listen on port 3001
